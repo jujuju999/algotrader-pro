@@ -1,7 +1,1 @@
-[build]
-builder = "nixpacks"
-
-[deploy]
-startCommand = "cd backend && uvicorn main:app --host 0.0.0.0 --port $PORT"
-healthcheckPath = "/"
-restartPolicyType = "on_failure"
+web: cd backend && uvicorn main:app --host 0.0.0.0 --port $PORT
