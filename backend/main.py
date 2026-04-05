@@ -680,13 +680,15 @@ async def lifespan(app: FastAPI):
 app = FastAPI(title="AlgoTrader Pro", lifespan=lifespan)
 app.add_middleware(CORSMiddleware, allow_origins=["*"], allow_methods=["*"], allow_headers=["*"])
 
-if os.path.exists("frontend"):
-    app.mount("/static", StaticFiles(directory="frontend"), name="static")
+FRONTEND_DIR = os.path.join(os.path.dirname(__file__), "..", "frontend")
+if os.path.exists(FRONTEND_DIR):
+    app.mount("/static", StaticFiles(directory=FRONTEND_DIR), name="static")
 
 @app.get("/")
 async def root():
-    if os.path.exists("frontend/index.html"):
-        return FileResponse("frontend/index.html")
+    index = os.path.join(FRONTEND_DIR, "index.html")
+    if os.path.exists(index):
+        return FileResponse(index)
     return {"status": "AlgoTrader Pro API"}
 
 @app.get("/api/portfolio")  
