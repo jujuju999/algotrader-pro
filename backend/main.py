@@ -561,6 +561,8 @@ class FinnhubProvider:
         quote = await self.fetch_quote(sym)
         if quote:
             self.engine.prices[sym] = {**quote, "vol":0, "src":"rest", "change":0}
+            if sym not in self.engine.closes:
+                self.engine.closes[sym] = []
             self.engine.closes[sym].append(quote["price"])
             log.info(f"✅ {sym}: ${quote['price']:.2f} ({quote['pct']:+.2f}%)")
         return bool(quote)
